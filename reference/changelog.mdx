@@ -1,0 +1,195 @@
+---
+title: "Changelog"
+description: "Release history and what's new in each version of Mist."
+---
+
+## v0.30 — September 23, 2025
+
+<Tip>
+  v0.30 adds support for macOS Tahoe 26 and fixes a critical installer creation bug on macOS Sequoia.
+</Tip>
+
+- Added support for **macOS Tahoe 26**
+- Updated app icon to support new appearances on macOS Tahoe
+- Fixed a bug that prevented macOS Installers from being created on devices running **macOS Sequoia 15** or later — thanks [gregneagle](https://github.com/gregneagle)!
+- Bumped [Sparkle](https://github.com/sparkle-project/Sparkle) version to **2.8.0**
+- Bumped [Yams](https://github.com/jpsim/Yams) version to **6.1.0**
+
+---
+
+## v0.20.1 — October 5, 2024
+
+- Fixed a bug that resulted in macOS Installers being created that were only **~500MB** in size — thanks [hronro](https://github.com/hronro), [weegie247](https://github.com/weegie247), [gjoris](https://github.com/gjoris), [EAZYBLACK](https://github.com/EAZYBLACK), [tifredfr](https://github.com/tifredfr), [clickoncentral](https://github.com/clickoncentral), [dordal](https://github.com/dordal), and [A00736470](https://github.com/A00736470)!
+
+---
+
+## v0.20 — July 14, 2024
+
+- Added preliminary support for **macOS Sequoia 15**
+- Fixed a bug that prevented retrieving Apple Developer Signing identities from the keychain correctly
+- Fixed a bug that prevented CSV output being exported correctly — thanks [NorseGaud](https://github.com/NorseGaud)!
+- Bumped [Sparkle](https://github.com/sparkle-project/Sparkle) version to **2.6.4**
+- Bumped [Yams](https://github.com/jpsim/Yams) version to **5.1.3**
+
+---
+
+## v0.10 — February 26, 2024
+
+<Tip>
+  v0.10 is a significant feature release adding unified logging, firmware URL clipboard copying, ISO support for legacy macOS versions, and a customizable app icon.
+</Tip>
+
+- Mist now ships logs to the [unified logging system](https://developer.apple.com/documentation/os/logging)
+  - View the **Mist Log** window via **⌘ + L**, **Mist > Window**, or the **Show Mist Log** toolbar button
+  - Monitor logs in Terminal with: `log stream --predicate 'subsystem=="com.ninxsoft.mist"'`
+  - Thanks [Chilternburt](https://github.com/Chilternburt)!
+- Firmware URLs can now be copied to the system clipboard — thanks [BigMacAdmin](https://github.com/BigMacAdmin)!
+- Added ISO support for OS X Lion 10.7 and OS X Mountain Lion 10.8 — thanks [madsmtm](https://github.com/madsmtm)!
+- You can now select your favourite Mist app icon via **Settings > General** — thanks [stumcd](https://github.com/stumcd)!
+- Fixed an issue that prevented macOS Sierra 10.12 ISOs from building correctly — thanks [Asnowz](https://github.com/Asnowz), [BenFRC5147](https://github.com/BenFRC5147), and [Archetrix](https://github.com/Archetrix)!
+- Improved error messaging for when the Privileged Helper Tool fails to install — thanks [DevLiuSir](https://github.com/DevLiuSir), [bhagatparwinder](https://github.com/bhagatparwinder), and [JuanCab](https://github.com/JuanCab)!
+- Bumped [Sparkle](https://github.com/sparkle-project/Sparkle) version to **2.5.2**
+
+---
+
+## v0.9.1 — August 25, 2023
+
+- Fixed insecure HTTP URLs for certain Firmware files — thanks [F1248](https://github.com/F1248)!
+- Fixed a bug where downloads were not being cancelled when the Escape key was pressed — thanks [F1248](https://github.com/F1248)!
+- Rolled back the Bootable Disk Image (ISO) shrinking logic that was preventing ISOs from booting correctly — thanks [mviron](https://github.com/mviron), [tulgeywood](https://github.com/tulgeywood), and [mibosshard](https://github.com/mibosshard)!
+- Improved the error message output when installing the Privileged Helper Tool failed — thanks [DevLiuSir](https://github.com/DevLiuSir) and [bhagatparwinder](https://github.com/bhagatparwinder)!
+- Bumped [Yams](https://github.com/jpsim/Yams) version to **5.0.6**
+
+---
+
+## v0.9 — June 26, 2023
+
+- Added the ability to remove individual macOS Installer cached downloads, managed via **Settings > Installers** — thanks [dracinn](https://github.com/dracinn)!
+- Added a macOS Sonoma application installer icon
+- Updated Firmware / Installer tooltips to include release names
+- Improved error messaging when refreshing Firmwares fails due to pending server-side updates
+- Bootable Disk Image (ISO) sizes are now calculated dynamically, with minimal free space — thanks [devZer0](https://github.com/devZer0) and [carlashley](https://github.com/carlashley)!
+- Fixed a bug where scrolling or clicking on the **Beta** ribbon on top of images caused Mist to crash — thanks [PicoMitchell](https://github.com/PicoMitchell), [5T33Z0](https://github.com/5T33Z0), and [matxpa](https://github.com/matxpa)!
+
+---
+
+## v0.8.1 — June 15, 2023
+
+- Fixed a bug where **macOS Sierra 10.12.6**, **OS X El Capitan 10.11.6**, and **OS X Yosemite 10.10.5** would fail to download — thanks [BenFRC5147](https://github.com/BenFRC5147), [AKERDoc](https://github.com/AKERDoc), [F1248](https://github.com/F1248), and [crystall1nedev](https://github.com/crystall1nedev)!
+- Fixed a bug where Mist allowed exporting ISOs when it should not
+
+---
+
+## v0.8 — June 14, 2023
+
+- Mist now supports the creation of **Bootable Installers**
+  - Click the Bootable Installer button on the right-hand side of Installer list rows
+  - Select a **Mac OS Extended (Journaled)** volume to create a Bootable Installer
+  - Available for **macOS Big Sur 11** and newer on Apple Silicon Macs
+  - Available for **OS X Yosemite 10.10.5** and newer on Intel-based Macs
+  - Thanks [5T33Z0](https://github.com/5T33Z0)!
+- Fixed a bug where Mist allowed exporting ISOs for OS X Mountain Lion 10.8.5 and older on Intel-based Macs
+- Added missing tooltips for Firmwares / Installers (hover to view)
+- Minor cosmetic fixes, including tweaks to button styles and accent colors
+
+---
+
+## v0.7.1 — June 9, 2023
+
+- Fixed a bug where the list of Firmwares / Installers would wrap incorrectly when **Show scroll bars** was set to **Always** in **Settings > Appearance** — thanks [kevinmcox](https://github.com/kevinmcox)!
+
+---
+
+## v0.7 — June 9, 2023
+
+- Added preliminary support for **macOS Sonoma 14**
+- Updated the app icon and accent color to reflect macOS Sonoma (including dark appearance)
+- Updated the **Download** button look and feel
+- Moved the **Beta** tag to a ribbon that wraps around the macOS icon
+- Mist now scrolls to the active task automatically in the activity screen
+- Mist now remembers the last selected **Firmwares** / **Installers** tab when the app is relaunched
+- Added missing tooltip for the **Refresh** toolbar button
+- Updated the Firmware icon for **Settings > Firmwares** — thanks [isthisthingon](https://isthisthingon.tech)!
+- Fixed a bug where **Full Disk Access** was being checked even when downloading Firmwares — thanks [dczward](https://macadmins.slack.com/team/U19TV67S6) and [PicoMitchell](https://github.com/PicoMitchell)!
+- Fixed a bug where selecting an ISO for compatible Installers caused non-compatible Installers to display available export types incorrectly
+- Fixed a bug where Intel Macs would not determine compatible legacy operating systems (10.7–10.12) correctly — thanks [BenFRC5147](https://github.com/BenFRC5147)!
+
+---
+
+## v0.6 — June 6, 2023
+
+- Added support for the following legacy operating systems — thanks [n8felton](https://github.com/n8felton)!
+  - macOS Sierra 10.12.6
+  - OS X El Capitan 10.11.6
+  - OS X Yosemite 10.10.5
+  - OS X Mountain Lion 10.8.5
+  - Mac OS X Lion 10.7.5
+- Added a **Show in Finder upon completion** checkbox to the download screen — thanks [BigMacAdmin](https://github.com/BigMacAdmin)!
+- Added a Full Disk Access verification step prior to downloading a macOS Firmware / Installer — thanks [ihubgit](https://github.com/ihubgit) and [NorseGaud](https://github.com/NorseGaud)!
+- Added a warning when attempting to build an ISO for **macOS Catalina 10.15 or older** on Apple Silicon Macs — thanks [KenjiTakahashi](https://github.com/KenjiTakahashi)!
+- The Mist.app Login Item title now displays the app name and not the developer's name — thanks [PicoMitchell](https://github.com/PicoMitchell)!
+- Temporary volumes are now hidden and no longer show in Finder when mounted during image creation — thanks [wakco](https://github.com/wakco)!
+- Mist now has more comprehensive error messages for failed tasks — thanks [IronCraftMan](https://github.com/IronCraftMan)!
+- Fixed a bug where warning messages would not cascade correctly
+- Fixed a bug where file and directory ownership was being checked incorrectly
+- Fixed a bug where icons would flicker during animation in the **Settings > Applications** tab
+- Fixed a bug where the Mist window would not resize correctly
+
+---
+
+## v0.5 — December 29, 2022
+
+- The macOS Installer cache can now be emptied even if **Cache downloads** is disabled — thanks [PicoMitchell](https://github.com/PicoMitchell)!
+- Window tabs are now disabled — thanks [PicoMitchell](https://github.com/PicoMitchell)!
+- The **Close Window (⌘ + W)** keyboard shortcut is now available once again — thanks [PicoMitchell](https://github.com/PicoMitchell)!
+- CSV exports are now working correctly again — thanks [JoGlib](https://github.com/JoGilb)!
+- Removed unused declarations and imports
+- Bumped [Sparkle](https://github.com/sparkle-project/Sparkle) version to **2.3.1**
+- Minor cosmetic fixes
+
+---
+
+## v0.4 — December 10, 2022
+
+- Building a package for macOS Big Sur or newer is now much faster — the Apple-provided package is re-used directly
+- Custom Catalog URLs have been replaced with a default set of Apple-provided Software Update Catalogs in app preferences
+  - The standard catalog that ships with macOS is enabled by default
+  - Additional Seed Program catalogs can be enabled
+  - <Note>Catalogs from the Seed Programs may contain beta / unreleased versions of macOS. Ensure you are a member of these programs before proceeding.</Note>
+- Users are now notified when the macOS Installer cache directory has incorrect ownership or permissions, and are given the option to repair
+- Cache directories for specific macOS Installers with incorrect ownership or permissions will attempt to repair on-the-fly
+
+---
+
+## v0.3 — September 26, 2022
+
+- The macOS Installer cache directory can now be customised in app preferences
+- Calculating ISO image sizes is slightly more dynamic (to better support macOS Ventura ISOs)
+- macOS Installer SHA-1 checksums are now only validated when they are present
+- Minor cosmetic tweaks
+
+---
+
+## v0.2 — July 15, 2022
+
+- Users are now notified of incompatible macOS Firmwares / Installers before downloading
+- Placeholder icons for macOS Ventura have been updated with the final icons
+- Custom Catalog URLs are no longer being ignored
+- The Catalog URLs heading is now aligned correctly under Preferences
+
+---
+
+## v0.1.1 — July 1, 2022
+
+- Intermediate cache directories are now created if required
+- Downloads no longer retry indefinitely
+
+---
+
+## v0.1 — July 1, 2022
+
+<Note>
+  This is the initial public release of Mist.
+</Note>
+
+- Initial release

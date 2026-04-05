@@ -1,0 +1,87 @@
+{
+  "projectType": "general",
+  "projectName": "Mist",
+  "projectDescription": "A Mac utility that automatically downloads macOS Firmwares and Installers for Apple Silicon and Intel Macs.",
+  "theme": "almond",
+  "primaryColor": "#94cb04",
+  "lightColor": "#545454",
+  "darkColor": null,
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "installation",
+              "requirements"
+            ]
+          },
+          {
+            "group": "Using Mist",
+            "pages": [
+              "using-mist/firmwares",
+              "using-mist/installers",
+              "using-mist/export-types",
+              "using-mist/exporting-lists",
+              "using-mist/bootable-installers"
+            ]
+          },
+          {
+            "group": "Configuration",
+            "pages": [
+              "configuration/general",
+              "configuration/firmwares",
+              "configuration/installers",
+              "configuration/disk-images",
+              "configuration/packages"
+            ]
+          },
+          {
+            "group": "Advanced",
+            "pages": [
+              "advanced/privileged-helper-tool",
+              "advanced/seed-programs",
+              "advanced/codesigning",
+              "advanced/logging"
+            ]
+          },
+          {
+            "group": "Reference",
+            "pages": [
+              "reference/troubleshooting",
+              "reference/faq",
+              "reference/changelog"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Download macOS Firmware Restore files (.ipsw) for Apple Silicon Macs with SHA-1 checksum validation",
+    "Generate macOS Installer Applications (.app), Disk Images (.dmg), Bootable ISOs (.iso), and Packages (.pkg)",
+    "Support for macOS versions from Mac OS X Lion 10.7 through macOS Tahoe 26",
+    "Filter downloads by compatibility with the current Mac hardware",
+    "Export firmware/installer lists as CSV, JSON, Property List, or YAML",
+    "Optional codesigning for Disk Images and Packages",
+    "Configurable Software Update Catalogs including Standard, Customer Seed, Developer Seed, and Public Seed",
+    "Download caching to speed up repeated build operations",
+    "Automatic retries with configurable retry count and delay",
+    "Privileged Helper Tool for operations requiring elevated privileges",
+    "Unified logging system integration for monitoring and debugging",
+    "Bootable Installer creation for macOS Big Sur and newer on Apple Silicon, and macOS Yosemite and newer on Intel"
+  ],
+  "publicApiSurface": [
+    "Firmware.supportedBuilds() — retrieves supported firmware builds for the current Mac",
+    "InstallerExportType: .application, .diskImage, .iso, .package",
+    "ExportListType: .csv, .json, .plist, .yaml",
+    "CatalogType: .tahoe, .sequoia, .sonoma, .ventura, .monterey, .bigSur",
+    "CatalogSeedType: .standard, .customer, .developer, .public",
+    "MistError — error enum covering download, validation, and I/O failures",
+    "Hardware.architecture — detects Apple Silicon vs Intel",
+    "HelperToolCommandType — XPC command types for the Privileged Helper Tool"
+  ]
+}

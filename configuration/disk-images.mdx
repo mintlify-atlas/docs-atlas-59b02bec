@@ -1,0 +1,73 @@
+---
+title: "Disk Image Settings"
+description: "Customise the filename template and optional codesigning for macOS Installer Disk Images."
+---
+
+Access these settings from **Mist &gt; Settings &gt; Disk Images**.
+
+## Overview
+
+macOS Disk Images are **DMG** files that package a macOS Installer Application in an easily transportable format. They can be shared, archived, or deployed to other Macs.
+
+---
+
+## Disk Image Filename
+
+The **Disk Image filename** field controls the name given to each generated DMG file. It supports dynamic template variables substituted with real values at build time.
+
+### Template variables
+
+| Variable | Replaced with | Example |
+|---|---|---|
+| `%NAME%` | The macOS release name | `macOS Tahoe` |
+| `%VERSION%` | The macOS version number | `26.0` |
+| `%BUILD%` | The build identifier | `25A354` |
+
+### Default template
+
+```
+Install %NAME% %VERSION%_%BUILD%.dmg
+```
+
+### Example output
+
+With the default template and a macOS Tahoe 26.0 installer:
+
+```
+Install macOS Tahoe 26.0_25A354.dmg
+```
+
+The preview below the filename field updates in real time as you type.
+
+---
+
+## Codesign Disk Images
+
+Codesigning a disk image cryptographically attests that its contents come from a known, trusted source. Users who receive the DMG can verify it has not been tampered with.
+
+| Setting | Default | Description |
+|---|---|---|
+| Codesign Disk Image | Off | Enable or disable codesigning for generated disk images. |
+| Signing identity | _(none)_ | The **Developer ID Application** certificate to sign with. |
+
+When the toggle is enabled, the identity picker becomes active. It is populated automatically with any **Developer ID Application** certificates found in your login Keychain.
+
+<Note>
+  Codesigning requires a valid **Developer ID Application** certificate installed in your Keychain. These are issued through the [Apple Developer Program](https://developer.apple.com/programs/). If no eligible certificates are found, the picker will be empty.
+</Note>
+
+<Tip>
+  Codesigning disk images is recommended when distributing them to other users or deploying via MDM, as it provides a verifiable chain of trust back to your Developer ID.
+</Tip>
+
+---
+
+## Reset to Defaults
+
+Clicking **Reset to Defaults** restores all Disk Image settings:
+
+| Setting | Restored value |
+|---|---|
+| Disk Image filename | `Install %NAME% %VERSION%_%BUILD%.dmg` |
+| Codesign Disk Image | Off |
+| Signing identity | _(none)_ |

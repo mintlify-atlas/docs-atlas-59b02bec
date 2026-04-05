@@ -1,0 +1,142 @@
+---
+title: "FAQ"
+description: "Answers to frequently asked questions about Mist."
+---
+
+<AccordionGroup>
+
+  <Accordion title="What is Mist?">
+
+    Mist (macOS Installer Super Tool) is a Mac utility that automatically downloads macOS Firmwares and Installers directly from Apple's servers. It provides a graphical interface for browsing all available macOS versions — from Mac OS X Lion 10.7 through the latest release — and can export them in multiple formats for use with installation, deployment, and virtualization workflows.
+
+    Mist validates every download using checksums to ensure the files are complete and unmodified.
+
+  </Accordion>
+
+  <Accordion title="What's the difference between a Firmware and an Installer?">
+
+    **Firmware** refers to an IPSW (iPhone Software) Restore file used to restore or reinstall macOS on an Apple Silicon Mac via Apple Configurator 2 or during a DFU restore. Firmware files are specific to Apple Silicon and are not used on Intel Macs.
+
+    **Installer** refers to the full macOS Install application (e.g., *Install macOS Sequoia.app*) distributed through Apple's Software Update infrastructure. Installers can be used to:
+    - Perform an in-place upgrade
+    - Create bootable USB installation media
+    - Generate disk images or packages for deployment
+
+    Installers are available for both Apple Silicon and Intel Macs from macOS Big Sur onwards, and for Intel Macs only for older versions of macOS.
+
+  </Accordion>
+
+  <Accordion title="Which Mac architectures are supported?">
+
+    Mist runs on macOS Monterey 12.0 and later, on both Apple Silicon (ARM64) and Intel (x86_64) Macs.
+
+    | Download type | Apple Silicon | Intel |
+    |---|---|---|
+    | Firmware (`.ipsw`) | Yes | No |
+    | Installer (`.app`, `.dmg`, `.iso`, `.pkg`) | Yes (macOS Big Sur and later) | Yes (macOS Lion 10.7 and later) |
+
+    Firmware downloads are exclusively for Apple Silicon Macs — they are used to restore the Mac's firmware and are not applicable to Intel hardware.
+
+    For Installers, Apple Silicon Macs support macOS Big Sur 11 and later. Intel Macs support all versions from Mac OS X Lion 10.7 onwards.
+
+  </Accordion>
+
+  <Accordion title="Can I download beta versions of macOS?">
+
+    Yes. Mist supports Apple's Seed Program Software Update Catalogs, which include pre-release and beta versions of macOS. To access them, open **Settings > Installers** and enable one or more of the following catalogs:
+
+    - **Customer Seed** — available through the [AppleSeed Program](https://appleseed.apple.com/)
+    - **Developer Seed** — available through the [Apple Developer Program](https://developer.apple.com/programs/)
+    - **Public Seed** — available through the [Apple Beta Software Program](https://beta.apple.com/)
+
+    <Warning>
+      Seed Program catalogs may contain unfinished, pre-release software. Ensure you are an enrolled member of the relevant program before enabling these catalogs.
+    </Warning>
+
+  </Accordion>
+
+  <Accordion title="What formats can I export macOS Installers in?">
+
+    Mist can generate macOS Installers in four formats:
+
+    | Format | Extension | Description |
+    |---|---|---|
+    | Application Bundle | `.app` | The standard macOS Installer app, identical to what is downloaded from the App Store |
+    | Disk Image | `.dmg` | A compressed, optionally codesigned disk image containing the installer |
+    | Bootable Disk Image | `.iso` | A bootable ISO image for use with virtualization software such as Parallels Desktop, VMware Fusion, UTM, and VirtualBox |
+    | macOS Installer Package | `.pkg` | A flat package installer, supporting macOS Big Sur and newer with a 12GB+ payload |
+
+    Disk Images and Packages support optional codesigning with a Developer ID certificate. Application Bundles and ISOs do not have a codesigning option in Mist.
+
+  </Accordion>
+
+  <Accordion title="What is the Privileged Helper Tool and do I need it?">
+
+    The Mist Privileged Helper Tool is a background process that runs with administrator privileges. It is required for operations that cannot be performed by a standard user process, including:
+
+    - Creating Bootable Disk Images (`.iso`)
+    - Creating macOS Installer Packages (`.pkg`)
+    - Creating Bootable Installers on a connected volume
+
+    You do not need the helper tool if you are only downloading Firmware (`.ipsw`) files or generating Application Bundles (`.app`) or standard Disk Images (`.dmg`).
+
+    The helper tool can be installed from **Settings > General**. Installation requires your administrator password and may require approval in **System Settings > Privacy & Security**.
+
+  </Accordion>
+
+  <Accordion title="Why do I need Full Disk Access?">
+
+    Certain download and installer creation operations require Mist to read or write to locations that macOS restricts by default. Without Full Disk Access, these operations may fail with a permissions error.
+
+    To grant Full Disk Access:
+
+    1. Open **System Settings > Privacy & Security > Full Disk Access**.
+    2. Click **+** and add Mist from your Applications folder.
+
+    Mist will warn you before starting a download if Full Disk Access is required and not yet granted.
+
+  </Accordion>
+
+  <Accordion title="Is there a command-line version of Mist?">
+
+    Yes. [mist-cli](https://github.com/ninxsoft/mist-cli) is a companion command-line tool that provides the same download and export capabilities as the GUI app. It is well-suited for scripting, automation, and use in CI/CD pipelines or MDM workflows.
+
+  </Accordion>
+
+  <Accordion title="Can I codesign my downloads?">
+
+    Yes. Mist supports optional codesigning for Disk Images (`.dmg`) and macOS Installer Packages (`.pkg`) using a Developer ID certificate from your keychain.
+
+    To enable codesigning, open **Settings > Disk Images** or **Settings > Packages** and select your Developer ID certificate from the available identities.
+
+    <Note>
+      Codesigning requires a valid Developer ID certificate issued by Apple. You must be enrolled in the Apple Developer Program to obtain one.
+    </Note>
+
+  </Accordion>
+
+  <Accordion title="What versions of macOS can I download?">
+
+    Mist can download every version of macOS that Apple makes available through its Software Update and Firmware catalogs:
+
+    - **Firmwares (Apple Silicon):** From the earliest available Apple Silicon firmware through the latest release, including macOS Tahoe 26.
+    - **Installers (Intel and Apple Silicon):** From Mac OS X Lion 10.7 through macOS Tahoe 26.
+
+    Legacy versions (Mac OS X Lion through macOS Sierra) are available for Intel Macs only. macOS Big Sur and later are available as Universal Installers supporting both architectures.
+
+  </Accordion>
+
+  <Accordion title="Why is the Privileged Helper Tool installation failing?">
+
+    Installation failures are usually caused by macOS security restrictions. Try the following:
+
+    1. **Check for a Security prompt** — After clicking **Install**, open **System Settings > Privacy & Security** and look for a prompt to allow the Mist helper tool. This prompt disappears after a short time, so act quickly.
+    2. **Verify administrator privileges** — You must be logged in as an administrator (or know an administrator password) to install the helper tool.
+    3. **Restart and retry** — If the prompt does not appear or the installation continues to fail, restart your Mac and try again from **Settings > General**.
+    4. **Check for conflicting security software** — Endpoint security or MDM policies can block helper tool installation. Contact your IT administrator if your Mac is managed.
+
+    Mist displays the specific error message from the system when installation fails, which can help identify the root cause.
+
+  </Accordion>
+
+</AccordionGroup>

@@ -1,0 +1,54 @@
+---
+title: "Introduction"
+description: "Mist is a Mac utility that automatically downloads macOS Firmwares and Installers for Apple Silicon and Intel Macs."
+---
+
+Mist (macOS Installer Super Tool) connects to Apple's servers and presents a complete, up-to-date catalog of available macOS versions — from Mac OS X Lion 10.7 through macOS Tahoe 26. Browse, filter, and download exactly what you need, with checksum validation to confirm every download is intact.
+
+<CardGroup cols={2}>
+  <Card title="Installation" icon="download" href="/installation">
+    Download Mist from GitHub or install with Homebrew.
+  </Card>
+  <Card title="Downloading Firmwares" icon="microchip" href="/using-mist/firmwares">
+    Download IPSW Firmware Restore files for Apple Silicon Macs.
+  </Card>
+  <Card title="Downloading Installers" icon="hard-drive" href="/using-mist/installers">
+    Generate macOS Installer apps, disk images, ISOs, and packages for Intel Macs.
+  </Card>
+  <Card title="Export types" icon="box-archive" href="/using-mist/export-types">
+    Learn about the .app, .dmg, .iso, and .pkg export formats.
+  </Card>
+</CardGroup>
+
+## Key capabilities
+
+### Apple Silicon — Firmware Restore files
+
+On Apple Silicon Macs, Mist downloads **IPSW Firmware Restore** files (`.ipsw`). Each download is verified against its SHA-1 checksum automatically. You can also copy firmware URLs directly to the clipboard for use in other tools.
+
+### Intel Macs — macOS Installers
+
+On Intel-based Macs (and Apple Silicon Macs for Universal installers from macOS Big Sur onward), Mist can generate:
+
+- **Application Bundle** (`.app`) — the standard macOS installer application
+- **Disk Image** (`.dmg`) — a mounted disk image containing the installer
+- **Bootable Disk Image** (`.iso`) — for use with Parallels Desktop, UTM, VMware Fusion, VirtualBox, and other virtualization software
+- **macOS Installer Package** (`.pkg`) — supports packages for macOS Big Sur and newer with 12 GB+ payloads
+
+Downloads are validated against Chunklist checksums, and Mist retries automatically on failure.
+
+### Supported macOS versions
+
+Mist supports listing and downloading macOS releases from **Mac OS X Lion 10.7** through **macOS Tahoe 26**, including beta versions when you opt into Apple Seed Program catalogs.
+
+## Companion CLI tool
+
+Mist also has a command-line companion, [mist-cli](https://github.com/ninxsoft/mist-cli), for scripting and automation workflows in terminal environments.
+
+## Full Disk Access
+
+<Warning>
+  Depending on what Mist downloads, macOS may require **Full Disk Access** to be granted to Mist. Without it, certain downloads or export operations may fail.
+
+  Grant access in **System Settings > Privacy & Security > Full Disk Access**, then enable the toggle next to **Mist**.
+</Warning>

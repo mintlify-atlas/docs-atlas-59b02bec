@@ -1,0 +1,70 @@
+---
+title: "Creating Bootable Installers"
+description: "Create a bootable macOS installer on an external drive or volume directly from Mist."
+---
+
+A bootable installer lets you start up a Mac from an external drive and install macOS from scratch — without needing an internet connection. This is useful for clean installs, reinstalling macOS on multiple Macs, or recovering a Mac that won't boot.
+
+<Note>
+  A bootable installer writes macOS to a physical volume. If you want to install macOS inside a virtual machine, use the [Bootable ISO (.iso)](/using-mist/export-types#bootable-iso-iso) export type instead.
+</Note>
+
+## Compatibility
+
+| Architecture  | Minimum macOS version       |
+| ------------- | --------------------------- |
+| Apple Silicon | macOS Big Sur 11            |
+| Intel         | OS X Yosemite 10.10.5       |
+
+Mist only shows the **Bootable Installer** button on installer rows that are compatible with your Mac's architecture.
+
+## Creating a bootable installer
+
+<Steps>
+  <Step title="Prepare your volume">
+    Connect an external drive or identify a volume you want to use. The volume must be formatted as **Mac OS Extended (Journaled)**. You can reformat a drive using **Disk Utility** (`/System/Applications/Utilities/Disk Utility.app`).
+
+    <Warning>
+      Creating a bootable installer **erases all data on the selected volume**. Back up any important files before proceeding.
+    </Warning>
+  </Step>
+  <Step title="Click the Bootable Installer button">
+    In the **Installers** tab, find the macOS version you want and click the **Bootable Installer** button (external drive icon) on its row.
+  </Step>
+  <Step title="Select a destination volume">
+    The volume selection sheet opens and lists all available **Mac OS Extended (Journaled)** volumes that are writable. Select your destination volume from the list.
+
+    If no volumes appear, click **Open Disk Utility** to reformat a drive, then click **Refresh** to update the list.
+  </Step>
+  <Step title="Confirm and wait">
+    Click **Select** to begin. Mist downloads the installer packages, validates their Chunklist checksums, then runs `createinstallmedia` to write the bootable installer to the volume. Progress is displayed in the activity sheet.
+  </Step>
+</Steps>
+
+## Full Disk Access requirement
+
+Mist requires **Full Disk Access** to create bootable installers. Without it, Mist cannot read certain system files needed during the process.
+
+To grant Full Disk Access:
+
+1. Open **System Settings**.
+2. Go to **Privacy & Security → Full Disk Access**.
+3. Enable the toggle next to **Mist**.
+
+<Warning>
+  If Full Disk Access is not granted, Mist will prompt you to allow it before proceeding with the bootable installer creation.
+</Warning>
+
+## Bootable installer vs. ISO
+
+Both a bootable installer and an ISO start from the same macOS Installer source, but they serve different purposes:
+
+| Feature             | Bootable Installer    | ISO                          |
+| ------------------- | --------------------- | ---------------------------- |
+| Target              | Physical Mac hardware | Virtual machine              |
+| Destination         | External drive/volume | File on disk                 |
+| Erases volume       | Yes                   | No                           |
+| Virtualization use  | No                    | Yes                          |
+| Bare-metal install  | Yes                   | No                           |
+
+Use a bootable installer when you need to install or reinstall macOS on a physical Mac. Use an [ISO](/using-mist/export-types#bootable-iso-iso) when you want to install macOS inside Parallels Desktop, UTM, VMware Fusion, or VirtualBox.

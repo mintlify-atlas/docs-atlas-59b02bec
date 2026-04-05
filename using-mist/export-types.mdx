@@ -1,0 +1,67 @@
+---
+title: "Export Types"
+description: "Learn about the four installer export formats Mist supports: Application, Disk Image, ISO, and Package."
+---
+
+When downloading an installer, Mist can produce one or more output formats in a single operation. Select the formats you need in the export type selector before starting a download.
+
+## Application (.app)
+
+Mist places the **macOS Installer application** directly in your chosen output directory. This is the standard `Install macOS <Name>.app` bundle that macOS uses to perform an in-place upgrade or a clean install.
+
+**Use this when you** want to run the installer directly on the current Mac, or keep the `.app` available for later use.
+
+## Disk Image (.dmg)
+
+Mist creates a distributable **disk image** containing the macOS Installer application. The `.dmg` can be shared, stored on a file server, or mounted on any Mac.
+
+**Use this when you** need a portable, self-contained file that can be easily distributed across a fleet of Macs.
+
+You can optionally codesign disk images with a Developer ID certificate. Configure codesigning in [**Settings → Disk Images**](/configuration/disk-images).
+
+## Bootable ISO (.iso)
+
+Mist creates a **bootable ISO image** derived from the macOS Installer. This format is designed for use with virtualization software.
+
+**Supported virtualization tools include:**
+- Parallels Desktop
+- UTM
+- VMware Fusion
+- VirtualBox
+
+**Use this when you** want to install macOS inside a virtual machine.
+
+<Note>
+  ISO support is available for macOS Lion 10.7 and later. ISOs for macOS Catalina 10.15 and older **cannot be built on Apple Silicon Macs** — this option is automatically disabled in those cases.
+</Note>
+
+<Warning>
+  Bootable ISOs are intended for virtualization use only. To install macOS on bare-metal hardware from an external drive, use the [Bootable Installer](/using-mist/bootable-installers) feature instead.
+</Warning>
+
+## Package (.pkg)
+
+Mist creates a **macOS Installer Package** that can be deployed with MDM solutions, Jamf Pro, Munki, or other Mac management tools.
+
+**Use this when you** need to deploy macOS upgrades across a managed fleet without requiring end-user interaction.
+
+<Note>
+  Packages for macOS Big Sur 11 and later contain a **12 GB+ payload**. Ensure your deployment infrastructure supports large package files before distributing.
+</Note>
+
+You can optionally codesign packages with a Developer ID Installer certificate. Configure codesigning in [**Settings → Packages**](/configuration/packages).
+
+## Compatibility
+
+The table below summarises which export types are available by architecture and minimum macOS version:
+
+| Export Type          | Apple Silicon          | Intel                  |
+| -------------------- | ---------------------- | ---------------------- |
+| Application (.app)   | macOS Big Sur 11+      | Mac OS X Lion 10.7+    |
+| Disk Image (.dmg)    | macOS Big Sur 11+      | Mac OS X Lion 10.7+    |
+| Bootable ISO (.iso)  | macOS Big Sur 11+      | Mac OS X Lion 10.7+    |
+| Package (.pkg)       | macOS Big Sur 11+      | Mac OS X Lion 10.7+    |
+
+<Note>
+  On Apple Silicon Macs, all export types require macOS Big Sur 11 or later because older macOS versions do not support Apple Silicon hardware. Mist automatically limits available export types based on your Mac's architecture and the selected installer version.
+</Note>

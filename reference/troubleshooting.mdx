@@ -1,0 +1,164 @@
+---
+title: "Troubleshooting"
+description: "Solutions for common issues encountered when using Mist to download macOS Firmwares and Installers."
+---
+
+<AccordionGroup>
+
+  <Accordion title="Download failures">
+
+    ### Chunklist validation errors
+
+    Mist validates each downloaded package segment against Apple's chunklist files before continuing. If a segment fails validation, Mist reports a `chunklistValidationError` and halts the download to protect you from corrupted files.
+
+    **What to do:**
+    - Wait a few minutes and retry — chunklist errors can result from a transient issue on Apple's content delivery servers.
+    - Check your network connection for instability (packet loss, VPN interference, proxy settings).
+    - If the error persists across multiple retries, try switching to a different network.
+
+    ### SHA-1 checksum mismatches for Firmware files
+
+    After a Firmware Restore (`.ipsw`) file finishes downloading, Mist compares its SHA-1 checksum against Apple's published value. A mismatch produces an `invalidShasum` error:
+
+    ```
+    Invalid Shasum: '<downloaded>', should be: '<expected>'
+    ```
+
+    This indicates the file was corrupted in transit. Delete the partial download and retry. If the mismatch repeats, the issue is likely network-related — try a different connection or disable any download-accelerating proxy.
+
+    ### Maximum retries reached
+
+    Mist automatically retries failed downloads up to a configurable limit. When that limit is exceeded, you will see:
+
+    ```
+    Maximum number of retries reached
+    ```
+
+    To adjust retry behavior, open **Settings > General** and increase the **Maximum Retries** or **Retry Delay** values, then try the download again.
+
+    ### Partial downloads and resuming
+
+    Mist supports resuming interrupted downloads. If a download is cut short — due to a network drop, putting your Mac to sleep, or manually cancelling — Mist will attempt to resume from where it left off on the next try rather than restarting from scratch.
+
+    If resume data becomes invalid (indicated by an `invalidDownloadResumeData` error), Mist will restart the download automatically from the beginning.
+
+  </Accordion>
+
+  <Accordion title="Privileged Helper Tool issues">
+
+    The Mist Privileged Helper Tool runs as a background process with elevated privileges, enabling Mist to perform administrator-level tasks such as creating bootable disk images and macOS Installer packages.
+
+    ### Failed to install
+
+    If installation fails, macOS security settings are the most common cause. After clicking **Install** in **Settings > General**, you may need to:
+
+    1. Open **System Settings > Privacy & Security**.
+    2. Scroll to the **Security** section.
+    3. Click **Allow** next to the Mist helper tool prompt.
+
+    <Note>
+      This approval prompt only appears for a short time after the installation attempt. If you miss it, click **Install** in Mist again to trigger a new prompt.
+    </Note>
+
+    ### Admin password prompt is expected
+
+    When installing or reinstalling the helper tool, macOS will ask for your administrator password. This is normal behavior — the system requires explicit authorization before granting elevated privileges to any helper tool.
+
+    ### Reinstalling a corrupted helper
+
+    If the helper tool was previously installed but is no longer functioning correctly, you can reinstall it:
+
+    1. Open **Mist > Settings > General**.
+    2. The **Privileged Helper Tool** row shows the current status and installed version.
+    3. If the status shows an outdated or mismatched version, click **Install** to reinstall.
+
+    <Warning>
+      If the helper tool shows as installed but Mist still fails to complete privileged operations, try logging out and back in, or restarting your Mac, then reinstalling.
+    </Warning>
+
+  </Accordion>
+
+  <Accordion title="Full Disk Access">
+
+    ### Why Full Disk Access is required
+
+    Certain download operations — particularly those that write to protected directories or interact with system volumes — require that Mist has Full Disk Access. Without it, the download may fail mid-way with a permissions error.
+
+    ### How to grant Full Disk Access
+
+    1. Open **System Settings > Privacy & Security > Full Disk Access**.
+    2. Click the **+** button.
+    3. Navigate to your **Applications** folder and select **Mist**.
+    4. Confirm the change if prompted.
+
+    Mist will verify that Full Disk Access is granted before starting any download that requires it, and will warn you if it is missing.
+
+    ### What happens without it
+
+    If Full Disk Access is not granted, Mist will display a warning before the download begins. Firmware downloads (`.ipsw`) generally do not require it, but macOS Installer creation — especially for older versions of macOS — may fail without it.
+
+    <Tip>
+      If you see a Full Disk Access warning during a Firmware download, this was a known bug that was fixed in v0.7. Update Mist to the latest version to resolve it.
+    </Tip>
+
+  </Accordion>
+
+  <Accordion title="macOS Installer creation issues">
+
+    ### Installers created at ~500MB (fixed in v0.20.1)
+
+    Versions of Mist prior to v0.20.1 contained a bug that caused macOS Installers to be generated at approximately 500MB — far smaller than the expected 12GB+. The resulting installer was non-functional.
+
+    **Resolution:** Update to **v0.20.1** or later. If you have an existing installer created with an older version, delete it and download again.
+
+    ### ISOs not booting correctly (fixed in v0.9.1)
+
+    A change introduced in v0.9 applied ISO shrinking logic that caused Bootable Disk Images to fail to boot in virtualization software (Parallels Desktop, VMware Fusion, UTM, VirtualBox).
+
+    **Resolution:** Update to **v0.9.1** or later. The shrinking logic was rolled back and ISO sizes are now calculated dynamically with minimal free space.
+
+    ### macOS Sierra and older failing to download (fixed in v0.8.1)
+
+    Prior to v0.8.1, downloads of **macOS Sierra 10.12.6**, **OS X El Capitan 10.11.6**, and **OS X Yosemite 10.10.5** would fail consistently.
+
+    **Resolution:** Update to **v0.8.1** or later.
+
+    ### macOS Sierra ISOs not building correctly (fixed in v0.10)
+
+    An issue prevented macOS Sierra 10.12 ISOs from building correctly on some systems.
+
+    **Resolution:** Update to **v0.10** or later.
+
+    ### macOS Installers failing on macOS Sequoia (fixed in v0.30)
+
+    A bug prevented macOS Installers from being created on Macs running macOS Sequoia 15 or later.
+
+    **Resolution:** Update to **v0.30** or later.
+
+  </Accordion>
+
+  <Accordion title="Compatibility warnings">
+
+    ### Incompatible Firmware or Installer warning
+
+    Before starting a download, Mist checks whether the selected Firmware or Installer is compatible with your Mac's hardware. If it is not, Mist displays a warning. You can choose to proceed anyway, but the resulting file may not work correctly on your machine.
+
+    This check uses your Mac's board ID, device ID, and model identifier to compare against Apple's compatibility data.
+
+    ### ISO not available for Apple Silicon Macs running macOS Catalina or older
+
+    Bootable Disk Images (`.iso`) are not supported for macOS Catalina 10.15 or older on Apple Silicon Macs. If you attempt to select ISO as an export type in this configuration, Mist will display a warning and disable the option.
+
+    ISOs for these legacy versions are only available when running Mist on an Intel-based Mac.
+
+    ### ISOs not available for OS X Mountain Lion 10.8.5 and older on Intel Macs
+
+    Mist does not support generating ISOs for OS X Mountain Lion 10.8.5 or earlier, even on Intel Macs. This limitation is enforced by Mist and the option will not be selectable for those versions.
+
+    <Note>
+      ISO support for OS X Lion 10.7 and OS X Mountain Lion 10.8 was added in v0.10. Ensure you are running v0.10 or later to access ISOs for these legacy versions.
+    </Note>
+
+  </Accordion>
+
+</AccordionGroup>

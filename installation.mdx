@@ -1,0 +1,50 @@
+---
+title: "Installation"
+description: "Install Mist via a direct download from GitHub or with Homebrew."
+---
+
+There are two ways to install Mist on your Mac.
+
+## Option 1: Direct download
+
+Download the latest release directly from GitHub.
+
+<Steps>
+  <Step title="Open the Mist releases page">
+    Go to the [Mist releases page](https://github.com/ninxsoft/Mist/releases) on GitHub and find the latest release.
+  </Step>
+  <Step title="Download the disk image">
+    Under **Assets**, download the `.dmg` file attached to the release.
+  </Step>
+  <Step title="Open the disk image">
+    Double-click the downloaded `.dmg` file to mount it.
+  </Step>
+  <Step title="Move Mist to Applications">
+    Drag **Mist.app** into your **Applications** folder.
+  </Step>
+  <Step title="Launch Mist">
+    Open **Mist** from your **Applications** folder or from Launchpad.
+  </Step>
+</Steps>
+
+<Note>
+  The first time you open Mist, macOS Gatekeeper may display a security prompt because the app was downloaded from the internet. Click **Open** to proceed. If the option does not appear, right-click (or Control-click) **Mist.app** and select **Open** from the context menu.
+</Note>
+
+## Option 2: Homebrew
+
+If you have [Homebrew](https://brew.sh) installed, you can install Mist with a single command.
+
+<CodeGroup>
+
+```bash Homebrew
+brew install --cask mist
+```
+
+</CodeGroup>
+
+Homebrew installs Mist into `/Applications`. You can launch it from there or from Spotlight (`⌘ + Space`, then type **Mist**).
+
+<Tip>
+  To update Mist via Homebrew in the future, run `brew upgrade --cask mist`. Mist also supports automatic in-app updates powered by [Sparkle](https://github.com/sparkle-project/Sparkle).
+</Tip>

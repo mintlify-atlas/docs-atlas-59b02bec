@@ -1,0 +1,77 @@
+---
+title: "Logging"
+description: "View and monitor Mist's unified log output to diagnose download failures and troubleshoot issues."
+---
+
+Since **v0.10**, Mist writes structured log entries to the macOS [unified logging system](https://developer.apple.com/documentation/os/logging) using the subsystem identifier `com.ninxsoft.mist`. Every significant event — download progress, errors, task completions — is captured in real time.
+
+## Log levels
+
+Mist uses three log levels to categorize entries:
+
+| Level | Color | Detail level | Unified logging level |
+|-------|-------|-------------|----------------------|
+| **Info** | Blue | All events, including progress updates | `notice` |
+| **Warning** | Yellow | Errors and warnings only | `error` |
+| **Error** | Red | Errors only | `fault` |
+
+The **Info** level captures the full picture. Switching to **Warning** or **Error** reduces noise when you only need to investigate problems.
+
+## Viewing the Mist Log window
+
+Mist includes a built-in **Mist Log** window that displays a live, filterable table of log entries with **Timestamp**, **Level**, and **Message** columns.
+
+<Steps>
+  <Step title="Open the Mist Log window">
+    Open the log window using any of the following methods:
+
+    - Press **⌘ + L**
+    - Choose **Window > Show Mist Log** from the menu bar
+    - Click the **Show Mist Log** button in the toolbar
+  </Step>
+  <Step title="Set the detail level">
+    Use the **Detail Level** picker in the toolbar to filter entries:
+
+    - **Show all logs** — displays Info, Warning, and Error entries
+    - **Show errors and warnings** — hides Info entries
+    - **Show errors only** — shows only Error entries
+  </Step>
+  <Step title="Search log entries">
+    Use the search field to filter entries by message content. The search is case-insensitive and matches any substring within the message.
+  </Step>
+  <Step title="Export the log">
+    Click **Export Log...** at the bottom of the window to save all current log entries to a `.log` file. The default filename includes a timestamp (for example, `Mist Log 2024-02-26_14-30-00.log`). Each line in the exported file contains the ISO 8601 timestamp, level, and message.
+  </Step>
+</Steps>
+
+## Monitoring logs in Terminal
+
+For continuous monitoring or integration with external tools, you can stream Mist's logs directly in Terminal using the `log` command:
+
+```bash
+log stream --predicate 'subsystem=="com.ninxsoft.mist"'
+```
+
+This streams all log entries from the `com.ninxsoft.mist` subsystem in real time. To filter by level, combine with a level predicate:
+
+```bash
+log stream --predicate 'subsystem=="com.ninxsoft.mist" AND messageType == fault'
+```
+
+To search historical logs instead of streaming, use `log show`:
+
+```bash
+log show --predicate 'subsystem=="com.ninxsoft.mist"' --last 1h
+```
+
+## Troubleshooting with logs
+
+The Mist Log is the first place to look when a download or export fails. Useful things to look for:
+
+- **Error entries** (red) — indicate task failures, often with a descriptive message from the underlying command
+- **Warning entries** (yellow) — flag non-fatal issues such as checksum mismatches or permission problems
+- **Info entries** around the time of failure — provide context on what Mist was doing immediately before the error occurred
+
+<Tip>
+  When reporting a bug, use **Export Log...** to save the full log and attach it to your GitHub issue. This gives maintainers the complete context needed to reproduce and fix the problem.
+</Tip>

@@ -1,0 +1,61 @@
+---
+title: "Codesigning"
+description: "Optionally sign Mist's output disk images and packages with your Apple Developer certificates to give users confidence in the content's origin."
+---
+
+Mist can optionally **codesign** the output files it produces. Codesigning cryptographically ties a file to your developer identity, allowing macOS (and your users) to verify that the file was produced by a trusted source and has not been tampered with since it was signed.
+
+Codesigning is entirely optional — downloads work correctly without it. It is most useful when you intend to distribute disk images or packages to other machines or users.
+
+<Note>
+  Codesigning applies only to the **output files** that Mist generates (disk images and packages). It does not affect the macOS source files downloaded from Apple's servers, which are always verified against Apple's own checksums.
+</Note>
+
+## Certificate requirements
+
+Two different certificate types are used depending on the output format:
+
+| Output type | Required certificate |
+|-------------|----------------------|
+| **Disk Image (DMG)** | Developer ID Application |
+| **Package (PKG)** | Developer ID Installer |
+
+Both certificate types require enrollment in the [Apple Developer Program](https://developer.apple.com/programs/). Once obtained, the certificates must be installed in your Mac's **login Keychain** so that Mist can read them.
+
+Mist queries the Keychain at launch using the `SecItemCopyMatching` API and filters for certificates whose subject begins with the appropriate prefix (`Developer ID Application` or `Developer ID Installer`). Only matching identities are presented in the signing identity picker.
+
+## Enabling codesigning
+
+### Disk images
+
+<Steps>
+  <Step title="Open Disk Images settings">
+    Open **Mist > Settings** (or press **⌘ + ,**) and select the **Disk Images** tab.
+  </Step>
+  <Step title="Enable codesigning">
+    Locate the **Codesign Disk Image** toggle and enable it.
+  </Step>
+  <Step title="Select a signing identity">
+    Choose a **Developer ID Application** certificate from the dropdown. The list is populated automatically from your Keychain.
+  </Step>
+</Steps>
+
+### Packages
+
+<Steps>
+  <Step title="Open Packages settings">
+    Open **Mist > Settings** (or press **⌘ + ,**) and select the **Packages** tab.
+  </Step>
+  <Step title="Enable codesigning">
+    Locate the **Codesign Packages** toggle and enable it.
+  </Step>
+  <Step title="Select a signing identity">
+    Choose a **Developer ID Installer** certificate from the dropdown. The list is populated automatically from your Keychain.
+  </Step>
+</Steps>
+
+## Notarization
+
+Codesigning a file is the first step toward notarization. If you plan to distribute signed disk images or packages outside the Mac App Store, Apple recommends submitting them to the [Apple notary service](https://developer.apple.com/documentation/security/notarizing_macos_software_before_distribution) using `notarytool`. Notarization produces a ticket that macOS staples to your file, allowing Gatekeeper to verify it even without an internet connection.
+
+Mist does not perform notarization automatically — this step must be completed separately using Xcode or the `notarytool` command-line utility after Mist has produced and signed the output file.

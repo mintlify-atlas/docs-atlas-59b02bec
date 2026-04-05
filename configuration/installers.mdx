@@ -1,0 +1,108 @@
+---
+title: "Installer Settings"
+description: "Configure download caching and Software Update Catalog sources for macOS Installers."
+---
+
+Access these settings from **Mist &gt; Settings &gt; Installers**.
+
+## Overview
+
+macOS Installers are a collection of files used to build macOS Installer **Applications**, **Disk Images**, **ISOs**, and **Packages**.
+
+The Installers pane is split into two sections: **Cache** and **Software Update Catalogs**.
+
+---
+
+## Cache
+
+Caching stores a local copy of downloaded macOS Installer files so they can be reused in future operations without re-downloading.
+
+| Setting | Default | Description |
+|---|---|---|
+| Cache downloads | Off | When enabled, installer files are saved to the cache directory after downloading. |
+| Cache directory | `/Users/Shared/Mist/Cache` | The folder where cached installer files are stored. |
+
+### Changing the cache directory
+
+Click **Select...** (only enabled when caching is on) to open a folder picker and choose a different location. The path control below the toggle always reflects the current directory.
+
+### Viewing cached installers
+
+When caching is enabled, the table in this section lists each installer currently in the cache, showing:
+
+- Release name
+- Version
+- Build identifier
+- Size on disk
+
+The total size of all cached content is displayed below the table.
+
+### Removing a cached installer
+
+<Steps>
+  <Step title="Select an installer">
+    Click a row in the cache table to select the installer you want to remove.
+  </Step>
+  <Step title="Click Remove...">
+    Click the **Remove...** button. A confirmation dialog shows how much disk space will be freed.
+  </Step>
+  <Step title="Confirm removal">
+    Click **Remove** in the confirmation dialog. The cached files are deleted and the table refreshes.
+  </Step>
+</Steps>
+
+Click **Show in Finder** to open the cache directory for the selected installer in Finder. This is also a fallback if removal fails — you can delete the folder manually from there.
+
+<Note>
+  The **Show in Finder** and **Remove...** buttons are only active when caching is enabled and a row is selected.
+</Note>
+
+---
+
+## Software Update Catalogs
+
+Mist queries Apple's Software Update Catalogs to discover available macOS Installers. You can choose which catalogs to include for each macOS release.
+
+### Catalog types
+
+Each macOS release has four catalog variants:
+
+| Catalog | Description |
+|---|---|
+| **Standard** | The default catalog that ships with macOS. Enabled by default. |
+| **Customer** | Available as part of the [AppleSeed Program](https://appleseed.apple.com/). May contain pre-release builds. |
+| **Developer** | Available as part of the [Apple Developer Program](https://developer.apple.com/programs/). May contain pre-release builds. |
+| **Public** | Available as part of the [Apple Beta Software Program](https://beta.apple.com/). May contain pre-release builds. |
+
+### Supported macOS releases
+
+The catalog table covers the following releases:
+
+- macOS Tahoe
+- macOS Sequoia
+- macOS Sonoma
+- macOS Ventura
+- macOS Monterey
+- macOS Big Sur
+
+Each row has four toggles — one for each catalog type — so you can mix and match independently per release.
+
+<Warning>
+  Seed catalogs (Customer, Developer, Public) may contain beta or unreleased versions of macOS. Ensure you are an enrolled member of the corresponding program before enabling these catalogs.
+</Warning>
+
+### Default state
+
+By default, only the **Standard** catalog is enabled for each macOS release. All seed catalogs start disabled.
+
+---
+
+## Reset to Defaults
+
+Clicking **Reset to Defaults** restores all Installer settings:
+
+| Setting | Restored value |
+|---|---|
+| Cache downloads | Off |
+| Cache directory | `/Users/Shared/Mist/Cache` |
+| Catalogs | Standard only, for all releases |

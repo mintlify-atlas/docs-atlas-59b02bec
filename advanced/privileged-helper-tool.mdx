@@ -1,0 +1,75 @@
+---
+title: "Privileged Helper Tool"
+description: "A background daemon that runs with elevated privileges to perform operations requiring root access, such as creating bootable installers and building ISOs."
+---
+
+Mist ships with a **Privileged Helper Tool** — a background daemon with the identifier `com.ninxsoft.mist.helper` — that runs with elevated (root) privileges on your Mac. This separation keeps the main Mist application sandboxed while still being able to perform system-level operations.
+
+## Why it's needed
+
+Certain tasks that Mist performs cannot be executed by a sandboxed application without root access:
+
+- Creating **bootable macOS installers** using `createinstallmedia`
+- Building **ISO disk images** from installer content
+- Mounting and unmounting disk images during the build process
+- Setting correct **file attributes and ownership** on output files
+- Running the macOS **Installer** package tool
+
+When one of these operations is required, Mist sends a command request — including the command type, arguments, and environment — to the helper tool over a secure XPC connection. The helper tool executes the command and returns the termination status, standard output, and standard error back to Mist.
+
+## Installing the Privileged Helper Tool
+
+The helper tool must be installed once before Mist can perform operations that require elevated privileges. macOS will prompt you for an administrator password during installation.
+
+<Steps>
+  <Step title="Open Mist Settings">
+    Launch Mist and open **Mist > Settings** (or press **⌘ + ,**), then select the **General** tab.
+  </Step>
+  <Step title="Install the helper tool">
+    Locate the **Privileged Helper Tool** row, which shows the current installation status and version. Click **Install...** to begin installation.
+
+    Alternatively, use the **Mist > Install Privileged Helper Tool...** menu item.
+  </Step>
+  <Step title="Authenticate">
+    macOS will display a system prompt asking for an administrator username and password. Enter your credentials and click **OK**.
+  </Step>
+  <Step title="Verify installation">
+    Once installation completes, the status row updates to show **Installed** alongside the installed version number. A green checkmark confirms the helper tool is ready.
+  </Step>
+</Steps>
+
+<Note>
+  If the helper tool is already up to date, the **Install...** button is disabled. Mist automatically detects version mismatches and will allow re-installation when a newer version of Mist is installed.
+</Note>
+
+## How it runs
+
+The helper tool is registered as a **LaunchDaemon** and its property list is stored at:
+
+```
+/Library/LaunchDaemons/com.ninxsoft.mist.helper.plist
+```
+
+The helper tool executable itself is installed at:
+
+```
+/Library/PrivilegedHelperTools/com.ninxsoft.mist.helper
+```
+
+macOS loads the daemon automatically at startup via `launchctl`, so the helper tool is available whenever Mist needs it — no manual intervention required after the initial installation.
+
+## Installation errors
+
+If the helper tool fails to install, Mist displays an alert with a description of the error. Error messaging was significantly improved in **v0.9.1** and again in **v0.10** to surface more actionable failure reasons (for example, authorization cancellations are handled silently rather than shown as errors).
+
+Common reasons for installation failure include:
+
+- The user cancelled the administrator authentication prompt
+- Insufficient privileges on the current account
+- A corrupted or tampered Mist application bundle
+
+If installation fails repeatedly, try re-downloading Mist from the official source and verifying that your user account has administrator rights.
+
+## Security
+
+Mist uses the [Blessed](https://github.com/trilemma-dev/Blessed) library to install the helper tool via the standard macOS `SMJobBless` API, and [SecureXPC](https://github.com/trilemma-dev/SecureXPC) to establish a cryptographically authenticated communication channel between the main app and the daemon. This ensures that only the signed Mist application can send commands to `com.ninxsoft.mist.helper`, preventing other processes from misusing the elevated privileges.

@@ -1,0 +1,52 @@
+---
+title: "Application Settings"
+description: "Customise the filename template used when saving macOS Installer Application bundles."
+---
+
+Access these settings from **Mist &gt; Settings &gt; Applications**.
+
+## Overview
+
+macOS Installer Applications are **app bundles** that can be used to install macOS on [Intel-based Macs](https://support.apple.com/en-us/HT201581) and [Apple Silicon Macs](https://support.apple.com/en-us/HT211814) (macOS Big Sur 11 and newer).
+
+The `.app` bundle is the standard `Install macOS <Name>.app` format, identical to what Apple delivers through the Mac App Store and Software Update.
+
+---
+
+## Application Filename
+
+The **Application filename** field controls the name given to each saved `.app` bundle. It supports dynamic template variables that are substituted with real values at download time.
+
+### Template variables
+
+| Variable | Replaced with | Example |
+|---|---|---|
+| `%NAME%` | The macOS release name | `macOS Tahoe` |
+| `%VERSION%` | The macOS version number | `26.0` |
+| `%BUILD%` | The build identifier | `25A354` |
+
+### Default template
+
+```
+Install %NAME% %VERSION%_%BUILD%.app
+```
+
+### Example output
+
+With the default template and a macOS Tahoe 26.0 installer:
+
+```
+Install macOS Tahoe 26.0_25A354.app
+```
+
+The preview below the filename field updates in real time as you type, showing the exact output filename before you download anything.
+
+---
+
+## Reset to Defaults
+
+Clicking **Reset to Defaults** restores the application filename to:
+
+```
+Install %NAME% %VERSION%_%BUILD%.app
+```

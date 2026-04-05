@@ -1,97 +1,54 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: "Mist — macOS Installer Super Tool"
+description: "A Mac utility that automatically downloads macOS Firmwares and Installers for Apple Silicon and Intel Macs."
 ---
 
-## Setting up
+Mist is a powerful Mac utility that makes it easy to download any version of macOS — from Mac OS X Lion all the way through the latest release. Whether you need a Firmware Restore file for an Apple Silicon Mac or a full macOS Installer in any format, Mist handles it automatically.
 
-Get your documentation site up and running in minutes.
-
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
-
-## Make it yours
-
-Design a docs site that looks great and empowers your users.
-
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
+<CardGroup cols={2}>
+  <Card title="Installation" icon="download" href="/installation">
+    Download Mist via the releases page or install with Homebrew in seconds.
   </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
+  <Card title="Requirements" icon="computer" href="/requirements">
+    Check what macOS version and hardware you need to run Mist.
   </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
+  <Card title="Downloading Firmwares" icon="microchip" href="/using-mist/firmwares">
+    Download IPSW Firmware Restore files for Apple Silicon Macs.
   </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
+  <Card title="Downloading Installers" icon="hard-drive" href="/using-mist/installers">
+    Generate macOS Installer apps, disk images, ISOs, and packages.
   </Card>
-</Columns>
+</CardGroup>
 
-## Create beautiful pages
+## What Mist does
 
-Everything you need to create world-class documentation.
+Mist connects to Apple's servers to retrieve a complete, up-to-date catalog of available macOS versions. You can browse, filter, and download exactly what you need — with checksum validation to ensure every download is intact.
 
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
+<CardGroup cols={2}>
+  <Card title="Export types" icon="box-archive" href="/using-mist/export-types">
+    Learn about .app, .dmg, .iso, and .pkg export formats.
   </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
+  <Card title="Bootable installers" icon="usb-drive" href="/using-mist/bootable-installers">
+    Create bootable USB or volume installers directly from Mist.
   </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
+  <Card title="Configuration" icon="gear" href="/configuration/general">
+    Customize retry behavior, notifications, app icons, and updates.
   </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
+  <Card title="Seed programs" icon="flask" href="/advanced/seed-programs">
+    Access beta macOS versions via Apple seed program catalogs.
   </Card>
-</Columns>
+</CardGroup>
 
-## Need inspiration?
+## Key features
 
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+- **Apple Silicon support** — Download IPSW Firmware files with SHA-1 checksum validation
+- **Intel Mac support** — Build .app, .dmg, .iso, and .pkg installers from macOS Catalina through the latest release
+- **Legacy macOS** — Supports Mac OS X Lion 10.7 through macOS Sierra 10.12 on Intel Macs
+- **Codesigning** — Optionally codesign disk images and packages with your Developer ID
+- **Caching** — Cache downloads locally to speed up repeated build operations
+- **List export** — Export the full firmware/installer catalog as CSV, JSON, Plist, or YAML
+- **Automatic retries** — Configurable retry count and delay for resilient downloads
+
+<Note>
+  Mist also has a companion command-line tool, [mist-cli](https://github.com/ninxsoft/mist-cli), for automation and scripting workflows.
+</Note>

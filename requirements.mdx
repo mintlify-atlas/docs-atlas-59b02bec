@@ -1,0 +1,61 @@
+---
+title: "Requirements"
+description: "Hardware, software, and permission requirements for running Mist."
+---
+
+## Runtime requirements
+
+| Requirement | Details |
+|---|---|
+| **macOS version** | macOS Monterey 12.0 or later |
+| **Supported hardware** | Apple Silicon and Intel-based Macs |
+
+Mist runs on any Mac that supports macOS Monterey or later. Both Apple Silicon (arm64) and Intel (x86\_64) architectures are fully supported.
+
+## Hardware-specific capabilities
+
+What Mist can download depends on the architecture of the Mac it is running on.
+
+<CardGroup cols={2}>
+  <Card title="Apple Silicon" icon="microchip">
+    Downloads **IPSW Firmware Restore** files (`.ipsw`) for Apple Silicon Macs. SHA-1 checksum validation is performed automatically on every download.
+  </Card>
+  <Card title="Intel-based" icon="computer">
+    Generates macOS Installers in any combination of `.app`, `.dmg`, `.iso`, and `.pkg` formats. Chunklist checksum validation is performed on every download.
+  </Card>
+</CardGroup>
+
+<Note>
+  On Apple Silicon Macs, Mist can also download **Universal** macOS Installers (for macOS Big Sur 11 and later) in all four export formats — not just Firmware files.
+</Note>
+
+## Full Disk Access
+
+Certain operations — particularly downloading macOS Firmwares and generating Installer exports — require Mist to have **Full Disk Access** on your Mac. Without this permission, downloads or export operations may fail silently or with an error.
+
+To grant Full Disk Access:
+
+1. Open **System Settings > Privacy & Security > Full Disk Access**.
+2. Enable the toggle next to **Mist**.
+3. If prompted, authenticate with your administrator password.
+
+<Warning>
+  If Mist is not listed under Full Disk Access, launch Mist first and then attempt a download. Mist will prompt you to open the correct System Settings pane automatically.
+</Warning>
+
+## Privileged Helper Tool
+
+Some export types — such as generating Bootable Disk Images (`.iso`) and macOS Installer Packages (`.pkg`) — require elevated privileges to run system-level commands. Mist installs an optional **Privileged Helper Tool** (`com.ninxsoft.mist.helper`) to handle these operations securely without requiring you to enter your password repeatedly.
+
+You will be prompted to install the Privileged Helper Tool the first time you attempt an operation that requires it. Administrator credentials are required to complete the installation.
+
+## Build requirements (developers only)
+
+If you are building Mist from source rather than using a pre-built release, you need:
+
+| Requirement | Version |
+|---|---|
+| **Swift** | 5.10 |
+| **Xcode** | 15.0 |
+
+Clone the repository from [github.com/ninxsoft/Mist](https://github.com/ninxsoft/Mist) and open `Mist.xcodeproj` in Xcode to build.

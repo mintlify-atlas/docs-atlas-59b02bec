@@ -1,0 +1,113 @@
+---
+title: "Downloading Installers"
+description: "Download macOS Installers and export them as .app, .dmg, .iso, or .pkg files for Intel and Apple Silicon Macs."
+---
+
+macOS Installers work on both **Intel** and **Apple Silicon** Macs. Mist retrieves the installer catalog from Apple's Software Update servers and displays every available version in a browsable list. Installers are supported from **Mac OS X Lion 10.7** through the latest release.
+
+<Note>
+  Installers for macOS Big Sur 11 and later are **Universal** — a single installer runs on both Intel and Apple Silicon hardware.
+</Note>
+
+## The Installers tab
+
+Open Mist and select the **Installers** tab. Each row in the list displays the following information:
+
+| Field      | Description                                                      |
+| ---------- | ---------------------------------------------------------------- |
+| Name       | macOS release name (e.g. macOS Tahoe)                            |
+| Version    | Version number (e.g. 26.0)                                       |
+| Build      | Build identifier (e.g. 25A354)                                   |
+| Date       | Post date from Apple's catalog                                   |
+| Size       | Total download size across all packages                          |
+| Compatible | Whether the installer is compatible with your Mac                |
+| Beta       | Indicated when the installer is a beta or pre-release build      |
+
+<Tip>
+  Hover over an installer row to see a tooltip with the release name, version, build, date, and download size.
+</Tip>
+
+## Filtering the list
+
+### Filter by compatibility
+
+Enable **Filter by Compatibility** in the toolbar to show only installers that are compatible with your Mac. Mist checks board IDs (Intel), device IDs (Apple Silicon and Intel T2), and unsupported model identifiers to determine compatibility.
+
+Installers for macOS Catalina 10.15 and older are **not compatible with Apple Silicon Macs** — Mist automatically reflects this.
+
+### Show beta versions
+
+Beta installers are hidden by default. To show them, select a **seed program catalog** from the catalog menu in the toolbar:
+
+| Catalog        | Description                                                                 |
+| -------------- | --------------------------------------------------------------------------- |
+| Standard       | The default catalog shipped with macOS                                      |
+| Customer Seed  | Available to members of the [AppleSeed Program](https://appleseed.apple.com) |
+| Developer Seed | Available to members of the [Apple Developer Program](https://developer.apple.com/programs) |
+| Public Seed    | Available to members of the [Apple Beta Software Program](https://beta.apple.com) |
+
+<Warning>
+  Seed catalogs may contain beta or unreleased versions of macOS. Ensure you are a member of the relevant program before using a seed catalog.
+</Warning>
+
+## Selecting export types
+
+Before downloading, choose one or more **export types** that Mist will generate. Click the **Download** button (arrow icon) on an installer row to open the destination picker. An export type selector appears as part of the panel:
+
+- **Application (.app)** — macOS Installer application
+- **Disk Image (.dmg)** — Distributable disk image containing the Installer app
+- **Bootable ISO (.iso)** — For use with virtualization software
+- **Package (.pkg)** — macOS Installer Package
+
+At least one export type must be selected. You can select multiple types in a single download operation. See [Export Types](/using-mist/export-types) for full details on each format.
+
+## Downloading an installer
+
+<Steps>
+  <Step title="Select an installer">
+    Find the installer version you want and click the **Download** button (arrow icon) on its row.
+  </Step>
+  <Step title="Choose export types">
+    In the export type selector, check the formats you want Mist to produce.
+  </Step>
+  <Step title="Choose a destination directory">
+    Select a destination folder where Mist will save the exported files.
+  </Step>
+  <Step title="Wait for the download">
+    Mist downloads all required packages and displays progress in the activity sheet. Failed downloads are automatically retried based on your configured retry count and delay.
+  </Step>
+  <Step title="Chunklist validation">
+    After each package downloads, Mist validates it against its **Chunklist checksum**. This ensures every package is complete and uncorrupted before Mist assembles the installer.
+  </Step>
+</Steps>
+
+<Warning>
+  If the installer is not compatible with your Mac, Mist will warn you before proceeding. You can still download an incompatible installer, but it may not run on your current machine.
+</Warning>
+
+## Caching downloads
+
+Mist can cache downloaded packages to speed up future build operations. When caching is enabled, Mist stores package files in a local cache directory and skips re-downloading packages that are already present.
+
+Configure caching in [**Settings → Installers**](/configuration/installers).
+
+## Installer filename template
+
+You can customise the filename Mist uses when saving exported files. The template supports the following variables:
+
+| Variable    | Replaced with      | Example        |
+| ----------- | ------------------ | -------------- |
+| `%NAME%`    | macOS release name | `macOS Tahoe`  |
+| `%VERSION%` | Version number     | `26.0`         |
+| `%BUILD%`   | Build identifier   | `25A354`       |
+
+Separate filename templates are available for each output format. Configure them in the corresponding Settings pane:
+
+- Application: [**Settings → Applications**](/configuration/applications)
+- Disk Image: [**Settings → Disk Images**](/configuration/disk-images)
+- ISO: [**Settings → ISOs**](/configuration/isos)
+- Package: [**Settings → Packages**](/configuration/packages)
+
+<Note>
+  Full Disk Access is required for Mist to read certain system files needed during the download and export process. Grant access via **System Settings → Privacy & Security → Full Disk Access**.
+</Note>

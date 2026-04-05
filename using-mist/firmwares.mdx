@@ -1,0 +1,79 @@
+---
+title: "Downloading Firmwares"
+description: "Download IPSW Firmware Restore files for Apple Silicon Macs directly from Mist."
+---
+
+Firmware Restore files (`.ipsw`) are used to restore macOS on **Apple Silicon Macs**. They are not compatible with Intel Macs. Mist retrieves firmware metadata from the [IPSW Downloads API](https://ipswdownloads.docs.apiary.io) and presents every available firmware in a browsable list.
+
+## The Firmwares tab
+
+Open Mist and select the **Firmwares** tab. Each row in the list displays the following information for a firmware:
+
+| Field      | Description                                            |
+| ---------- | ------------------------------------------------------ |
+| Name       | macOS release name (e.g. macOS Tahoe)                  |
+| Version    | Version number (e.g. 26.0)                             |
+| Build      | Build identifier (e.g. 25A354)                         |
+| Date       | Release date                                           |
+| Size       | Download size (~18 GB for a typical firmware)          |
+| Signed     | Whether Apple is currently signing the firmware        |
+| Compatible | Whether the firmware is compatible with your Mac       |
+
+<Tip>
+  Hover over a firmware row to see a tooltip summarising the release name, version, build number, release date, and download size.
+</Tip>
+
+## Filtering the list
+
+### Filter by compatibility
+
+By default, Mist shows all available firmwares. To show only the firmwares that are compatible with your current Mac, enable **Filter by Compatibility** in the toolbar. Mist checks the firmware's supported device list against your Mac's model identifier.
+
+<Note>
+  Compatibility filtering requires your Mac to be Apple Silicon. On Intel Macs, no firmware is compatible because IPSW files are for Apple Silicon only.
+</Note>
+
+### Show beta versions
+
+Beta firmwares are hidden by default. To include them, enable **Show Beta Versions** in the toolbar. Beta builds are identified by a lowercase letter at the end of the build string (e.g. `25A5279h`).
+
+## Copying a firmware URL
+
+Each firmware row has a **Copy URL** button (clipboard icon). Click it to copy the direct Apple CDN download URL to your clipboard. You can paste this URL into a browser, `curl`, or any other download tool.
+
+## Downloading a firmware
+
+<Steps>
+  <Step title="Select a firmware">
+    Find the firmware you want in the list and click the **Download** button (arrow icon) on its row.
+  </Step>
+  <Step title="Choose a destination">
+    A save panel opens. Choose where you want the `.ipsw` file to be saved. The default filename is derived from your filename template — see [Firmware filename template](#firmware-filename-template) below.
+  </Step>
+  <Step title="Wait for the download">
+    Mist downloads the firmware and displays progress in the activity sheet. If a download fails, Mist automatically retries based on your configured retry count and delay.
+  </Step>
+  <Step title="Checksum validation">
+    After the download completes, Mist validates the file against its **SHA-1 checksum** sourced from the IPSW Downloads API. If the checksum does not match, Mist reports an error and you should re-download the file.
+  </Step>
+</Steps>
+
+<Warning>
+  If the firmware is not compatible with your Mac, Mist will warn you before proceeding. You can still download an incompatible firmware, but it cannot be used to restore macOS on your current machine.
+</Warning>
+
+## Firmware filename template
+
+You can customise the filename Mist uses when saving a firmware. The template supports the following variables:
+
+| Variable    | Replaced with            | Example        |
+| ----------- | ------------------------ | -------------- |
+| `%NAME%`    | macOS release name       | `macOS Tahoe`  |
+| `%VERSION%` | Version number           | `26.0`         |
+| `%BUILD%`   | Build identifier         | `25A354`       |
+
+The default template produces filenames like `Install macOS Tahoe 26.0_25A354.ipsw`. Configure the template in [**Settings → Firmwares**](/configuration/firmwares).
+
+<Note>
+  Full Disk Access is required for Mist to write firmware files to certain directories. Grant access via **System Settings → Privacy & Security → Full Disk Access**.
+</Note>

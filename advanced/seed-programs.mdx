@@ -1,0 +1,57 @@
+---
+title: "Seed Programs"
+description: "Enable Apple seed program catalogs in Mist to discover beta and pre-release macOS installers alongside standard releases."
+---
+
+Mist discovers available macOS Installers by querying **Apple Software Update Catalogs** — structured index files hosted by Apple that list every macOS version available for download. Each catalog is scoped to a specific macOS release and seed program tier.
+
+## Catalog seed types
+
+There are four seed types, each pointing to a different Apple-hosted catalog URL:
+
+| Seed type | Description |
+|-----------|-------------|
+| **Standard** | The default catalog that ships with macOS. Always enabled by default. Contains only publicly released macOS versions. |
+| **Customer Seed** | The catalog available via the [AppleSeed Program](https://appleseed.apple.com/). Contains pre-release builds for selected customers. |
+| **Developer Seed** | The catalog available via the [Apple Developer Program](https://developer.apple.com/programs/). Contains beta builds for registered developers. |
+| **Public Seed** | The catalog available via the [Apple Beta Software Program](https://beta.apple.com/). Contains public beta builds. |
+
+## Supported catalog versions
+
+Seed catalogs are available for every macOS version that Mist supports:
+
+- macOS Tahoe
+- macOS Sequoia
+- macOS Sonoma
+- macOS Ventura
+- macOS Monterey
+- macOS Big Sur
+
+Each version has its own set of four seed catalog URLs. Enabling a seed type applies it across all supported catalog versions simultaneously.
+
+## Enabling seed catalogs
+
+<Steps>
+  <Step title="Open Mist Settings">
+    Launch Mist and open **Mist > Settings** (or press **⌘ + ,**), then select the **Installers** tab.
+  </Step>
+  <Step title="Locate Software Update Catalogs">
+    Scroll to the **Software Update Catalogs** section. A table lists each supported macOS version as a row, with columns for each seed type: **Standard**, **Customer**, **Developer**, and **Public**.
+  </Step>
+  <Step title="Enable the desired seed types">
+    Toggle the checkboxes in the seed columns for the macOS versions you want to query. The **Standard** column is enabled by default for all versions and should remain enabled in most cases.
+  </Step>
+  <Step title="Refresh the installer list">
+    Return to the main Mist window and click **Refresh**. Mist re-queries all enabled catalogs and updates the installer list. Beta or pre-release installers sourced from seed catalogs will appear alongside standard releases.
+  </Step>
+</Steps>
+
+<Warning>
+  Seed catalogs may contain **beta and unreleased versions of macOS**. You must be an active member of the corresponding Apple program before enabling a seed catalog:
+
+  - **Customer Seed** — requires membership in the [AppleSeed Program](https://appleseed.apple.com/)
+  - **Developer Seed** — requires enrollment in the [Apple Developer Program](https://developer.apple.com/programs/)
+  - **Public Seed** — requires enrollment in the [Apple Beta Software Program](https://beta.apple.com/)
+
+  Do not enable seed catalogs unless you are enrolled in the relevant program. Installing pre-release macOS versions on production machines is not recommended.
+</Warning>

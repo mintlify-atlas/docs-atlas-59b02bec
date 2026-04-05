@@ -1,0 +1,127 @@
+---
+title: "Exporting Lists"
+description: "Export the full firmware or installer catalog as CSV, JSON, Property List, or YAML."
+---
+
+Mist can export the complete list of available firmwares or installers to a file. This is useful for auditing, scripting, or integrating Mist's catalog data into other tools.
+
+## How to export a list
+
+In either the **Firmwares** or **Installers** tab, click the **Export** button in the toolbar. A save panel opens where you choose a file name and location. Mist exports the currently visible list — if you have compatibility filtering enabled, only compatible items are included in the export.
+
+## Export formats
+
+Mist supports four export formats:
+
+| Format                              | Extension |
+| ----------------------------------- | --------- |
+| CSV (Comma Separated Values)        | `.csv`    |
+| JSON (JavaScript Object Notation)   | `.json`   |
+| Plist (Apple Property List)         | `.plist`  |
+| YAML (YAML Ain't Markup Language)   | `.yaml`   |
+
+## Exported fields
+
+### Firmware list
+
+Each firmware entry includes the following fields:
+
+| Field        | Type    | Description                                        |
+| ------------ | ------- | -------------------------------------------------- |
+| `name`       | string  | macOS release name                                 |
+| `version`    | string  | Version number                                     |
+| `build`      | string  | Build identifier                                   |
+| `size`       | integer | Download size in bytes                             |
+| `url`        | string  | Direct Apple CDN download URL                      |
+| `date`       | string  | Release date in ISO 8601 format                    |
+| `signed`     | boolean | Whether Apple is currently signing this firmware   |
+| `compatible` | boolean | Whether compatible with the current Mac            |
+| `beta`       | boolean | Whether this is a beta release                     |
+
+**Example JSON output for a firmware entry:**
+
+```json
+{
+  "name": "macOS Tahoe",
+  "version": "26.0",
+  "build": "25A354",
+  "size": 18267586270,
+  "url": "https://updates.cdn-apple.com/2025FallFCS/fullrestores/093-37622/CE01FAB2-7F26-48EE-AEE4-5E57A7F6D8BB/UniversalMac_26.0_25A354_Restore.ipsw",
+  "date": "2025-09-15T17:27:42Z",
+  "signed": true,
+  "compatible": true,
+  "beta": false
+}
+```
+
+### Installer list
+
+Each installer entry includes the following fields:
+
+| Field          | Type    | Description                                         |
+| -------------- | ------- | --------------------------------------------------- |
+| `identifier`   | string  | Apple catalog identifier (e.g. `093-37779`)         |
+| `name`         | string  | macOS release name                                  |
+| `version`      | string  | Version number                                      |
+| `build`        | string  | Build identifier                                    |
+| `size`         | integer | Total download size in bytes across all packages    |
+| `date`         | string  | Post date from Apple's catalog                      |
+| `compatible`   | boolean | Whether compatible with the current Mac             |
+| `distribution` | string  | URL to the distribution file                        |
+| `packages`     | array   | List of individual package download entries         |
+| `beta`         | boolean | Whether this is a beta release                      |
+
+**Example JSON output for an installer entry:**
+
+```json
+{
+  "identifier": "093-37779",
+  "name": "macOS Tahoe",
+  "version": "26.0",
+  "build": "25A354",
+  "size": 16954472283,
+  "date": "2025-09-15",
+  "compatible": true,
+  "distribution": "https://swdist.apple.com/content/downloads/26/38/093-37779-A_Y4733G5GHI/adlxnkoqzyrrzfl1r5krg7ql0cod8vpl5e/093-37779.English.dist",
+  "packages": [
+    {
+      "url": "https://swcdn.apple.com/content/downloads/26/38/093-37779-A_Y4733G5GHI/adlxnkoqzyrrzfl1r5krg7ql0cod8vpl5e/InstallAssistant.pkg",
+      "size": 16947861409
+    }
+  ],
+  "beta": false
+}
+```
+
+## Alternative formats
+
+<Tabs>
+  <Tab title="CSV">
+    CSV output produces a flat table with one row per firmware or installer and a header row listing the field names. This format is easy to open in spreadsheet applications like Numbers or Microsoft Excel.
+
+    ```csv
+    name,version,build,size,url,date,signed,compatible,beta
+    macOS Tahoe,26.0,25A354,18267586270,https://updates.cdn-apple.com/...,2025-09-15T17:27:42Z,true,true,false
+    macOS Sequoia,15.0,24A335,15234567890,https://updates.cdn-apple.com/...,2024-09-16T00:00:00Z,true,true,false
+    ```
+  </Tab>
+  <Tab title="YAML">
+    YAML output produces a human-readable list. It is a good choice for use with configuration management tools and scripts that consume YAML natively.
+
+    ```yaml
+    - name: macOS Tahoe
+      version: "26.0"
+      build: 25A354
+      size: 18267586270
+      url: https://updates.cdn-apple.com/2025FallFCS/fullrestores/093-37622/CE01FAB2-7F26-48EE-AEE4-5E57A7F6D8BB/UniversalMac_26.0_25A354_Restore.ipsw
+      date: "2025-09-15T17:27:42Z"
+      signed: true
+      compatible: true
+      beta: false
+    ```
+  </Tab>
+</Tabs>
+
+<Note>
+  The exported list reflects the catalog at the time of export. Re-export periodically to capture newly released firmwares and installers.
+</Note>

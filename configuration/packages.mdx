@@ -1,0 +1,108 @@
+---
+title: "Package Settings"
+description: "Customise the filename, bundle identifier, and optional codesigning for macOS Installer Packages."
+---
+
+Access these settings from **Mist &gt; Settings &gt; Packages**.
+
+## Overview
+
+macOS Installer Packages are **PKG** files that install the macOS Installer Application directly into the `/Applications` directory. They are well-suited for deployment via MDM solutions.
+
+---
+
+## Package Filename
+
+The **Package filename** field controls the name given to each generated PKG file. It supports dynamic template variables substituted with real values at build time.
+
+### Template variables
+
+| Variable | Replaced with | Example |
+|---|---|---|
+| `%NAME%` | The macOS release name | `macOS Tahoe` |
+| `%VERSION%` | The macOS version number | `26.0` |
+| `%BUILD%` | The build identifier | `25A354` |
+
+### Default template
+
+```
+Install %NAME% %VERSION%_%BUILD%.pkg
+```
+
+### Example output
+
+With the default template and a macOS Tahoe 26.0 installer:
+
+```
+Install macOS Tahoe 26.0_25A354.pkg
+```
+
+The preview below the filename field updates in real time as you type.
+
+---
+
+## Package Identifier
+
+The **Package identifier** field sets the bundle identifier embedded in the PKG file. This identifier is used by macOS and MDM systems to track whether the package has already been installed.
+
+### Template variables
+
+The same variables as the filename are available. Additionally, **spaces in the expanded result are automatically replaced with hyphens** (`-`).
+
+| Variable | Replaced with | Example |
+|---|---|---|
+| `%NAME%` | The macOS release name (spaces → hyphens) | `macOS-Tahoe` |
+| `%VERSION%` | The macOS version number | `26.0` |
+| `%BUILD%` | The build identifier | `25A354` |
+
+### Default template
+
+```
+com.company.pkg.%NAME%.%VERSION%.%BUILD%
+```
+
+### Example output
+
+With the default template and a macOS Tahoe 26.0 installer:
+
+```
+com.company.pkg.macOS-Tahoe.26.0.25A354
+```
+
+<Tip>
+  Replace `com.company` with your organisation's reverse-domain identifier to avoid conflicts with packages from other vendors.
+</Tip>
+
+---
+
+## Codesign Packages
+
+Codesigning a package cryptographically attests that its contents come from a known, trusted source. Signed packages display the signer's identity in the macOS Installer app and pass Gatekeeper checks without prompting users.
+
+| Setting | Default | Description |
+|---|---|---|
+| Codesign Packages | Off | Enable or disable codesigning for generated packages. |
+| Signing identity | _(none)_ | The **Developer ID Installer** certificate to sign with. |
+
+When the toggle is enabled, the identity picker becomes active. It is populated automatically with any **Developer ID Installer** certificates found in your login Keychain.
+
+<Note>
+  Package codesigning requires a valid **Developer ID Installer** certificate installed in your Keychain. These are issued through the [Apple Developer Program](https://developer.apple.com/programs/) and are distinct from the **Developer ID Application** certificates used for disk images. If no eligible certificates are found, the picker will be empty.
+</Note>
+
+<Tip>
+  Signing packages is strongly recommended for any MDM deployment. Many MDM solutions require signed packages, and signing allows end users to verify the package origin before installation.
+</Tip>
+
+---
+
+## Reset to Defaults
+
+Clicking **Reset to Defaults** restores all Package settings:
+
+| Setting | Restored value |
+|---|---|
+| Package filename | `Install %NAME% %VERSION%_%BUILD%.pkg` |
+| Package identifier | `com.company.pkg.%NAME%.%VERSION%.%BUILD%` |
+| Codesign Packages | Off |
+| Signing identity | _(none)_ |

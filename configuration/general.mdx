@@ -1,0 +1,77 @@
+---
+title: "General Settings"
+description: "Configure notifications, retry behaviour, automatic updates, and the app icon."
+---
+
+Access these settings from **Mist &gt; Settings &gt; General**.
+
+## Notifications
+
+<Note>
+  Notifications are disabled by default. Enabling them will prompt macOS to request notification permission on first use.
+</Note>
+
+| Setting | Default | Description |
+|---|---|---|
+| Enable Notifications | Off | Receive a notification in Notification Centre when a macOS Firmware or Installer successfully downloads or fails. |
+
+Clicking **Notifications...** opens System Settings directly to the Notifications pane where you can adjust how Mist notifications are displayed.
+
+If notification permission has not been granted, enabling this toggle will trigger a macOS permission prompt. If permission is denied, the toggle reverts to off automatically. You can manually grant permission via **System Settings &gt; Notifications &gt; Mist**.
+
+## Retry
+
+These settings control what happens when a download fails partway through.
+
+| Setting | Default | Range | Description |
+|---|---|---|---|
+| Retry attempts | `10` | 0–100 | Number of times to retry a failed download before giving up. Set to `0` to disable retries entirely. |
+| Retry delay | `30` seconds | 1–300 | Number of seconds to wait between each retry attempt. |
+
+## Automatic Updates
+
+Mist uses [Sparkle](https://sparkle-project.org) to check for and deliver app updates.
+
+| Setting | Default | Options | Description |
+|---|---|---|---|
+| Automatically check app updates | On | — | Enable or disable background update checks. |
+| Check interval | Once a day | Once a day, Once a week, Once a fortnight, Once a month | How frequently Mist checks for a new version. |
+
+The interval picker is disabled when automatic checks are turned off.
+
+Clicking **Check now...** triggers an immediate update check regardless of the scheduled interval.
+
+<Tip>
+  You will be notified and given the option to proceed when an update is available. Mist never updates silently.
+</Tip>
+
+## App Icon
+
+<Note>
+  The App Icon picker is only available on macOS versions prior to macOS Tahoe 26. On macOS Tahoe and later, the system manages alternate icon selection and this section does not appear.
+</Note>
+
+Mist ships with five alternate app icons, each styled after a different macOS release. Select the icon you prefer using the radio group:
+
+| Icon | Style |
+|---|---|
+| macOS Monterey | Monterey-style icon |
+| macOS Ventura | Ventura-style icon |
+| macOS Sonoma | Sonoma-style icon |
+| macOS Sequoia | Sequoia-style icon |
+| macOS Tahoe | Tahoe-style icon (default) |
+
+The icon updates immediately in the Dock and App Switcher when you change your selection.
+
+## Reset to Defaults
+
+Clicking **Reset to Defaults** restores all General settings to their original values:
+
+| Setting | Restored value |
+|---|---|
+| Enable Notifications | Off |
+| Retry attempts | 10 |
+| Retry delay | 30 seconds |
+| Automatically check app updates | On |
+| Check interval | Once a day (86400 seconds) |
+| App Icon | macOS Tahoe |
